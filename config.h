@@ -1,6 +1,6 @@
 /* config.h - configuration defines for thttpd and libhttpd
 **
-** Copyright © 1995,1998,1999,2000,2001 by Jef Poskanzer <jef@mail.acme.com>.
+** Copyright ï¿½ 1995,1998,1999,2000,2001 by Jef Poskanzer <jef@mail.acme.com>.
 ** All rights reserved.
 **
 ** Redistribution and use in source and binary forms, with or without
@@ -394,5 +394,34 @@
 /* CONFIGURE: You don't even want to know.
 */
 #define MIN_WOULDBLOCK_DELAY 100L
+
+
+#define HAVE__PROGNAME
+#define HAVE_FCNTL_H
+#define HAVE_GRP_H
+#define HAVE_MEMORY_H
+#define HAVE_PATHS_H
+#define HAVE_POLL_H
+#define HAVE_SYS_POLL_H
+#define TIME_WITH_SYS_TIME
+#define HAVE_DIRENT_H
+#define HAVE_LIBCRYPT
+#define HAVE_STRERROR
+#define HAVE_WAITPID
+#define HAVE_VSNPRINTF
+#define HAVE_DAEMON
+#define HAVE_SETSID
+#define HAVE_GETADDRINFO
+#define HAVE_GETNAMEINFO
+#define HAVE_GAI_STRERROR
+#define HAVE_SIGSET
+#define HAVE_ATOLL
+#define HAVE_UNISTD
+#define HAVE_GETPAGESIZE
+#define HAVE_MMAP
+#define HAVE_SELECT
+#define HAVE_POLL
+#define HAVE_INT64T
+#define HAVE_SOCKLENT
 
 #endif /* _CONFIG_H_ */
