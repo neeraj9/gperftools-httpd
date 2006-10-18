@@ -1,6 +1,6 @@
 /* libhttpd.h - defines for libhttpd
 **
-** Copyright © 1995,1998,1999,2000,2001 by Jef Poskanzer <jef@mail.acme.com>.
+** Copyright ï¿½ 1995,1998,1999,2000,2001 by Jef Poskanzer <jef@mail.acme.com>.
 ** All rights reserved.
 **
 ** Redistribution and use in source and binary forms, with or without
@@ -32,6 +32,7 @@
 #include <sys/time.h>
 #include <sys/param.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
@@ -78,7 +79,6 @@ typedef struct {
     char* cwd;
     int listen4_fd, listen6_fd;
     int no_log;
-    FILE* logfp;
     int no_symlink_check;
     int vhost;
     int global_passwd;
@@ -103,9 +103,7 @@ typedef struct {
     char* decodedurl;
     char* protocol;
     char* origfilename;
-    char* expnfilename;
     char* encodings;
-    char* pathinfo;
     char* query;
     char* referer;
     char* useragent;
@@ -141,7 +139,8 @@ typedef struct {
     int should_linger;
     struct stat sb;
     int conn_fd;
-    char* file_address;
+    char* body_data;  /* body of response, malloc()ed */
+    void* conn;
     } httpd_conn;
 
 /* Methods. */
@@ -172,12 +171,11 @@ typedef struct {
 extern httpd_server* httpd_initialize(
     char* hostname, httpd_sockaddr* sa4P, httpd_sockaddr* sa6P,
     unsigned short port, char* cgi_pattern, int cgi_limit, char* charset,
-    char* p3p, int max_age, char* cwd, int no_log, FILE* logfp,
+    char* p3p, int max_age, char* cwd, int no_log, 
     int no_symlink_check, int vhost, int global_passwd, char* url_pattern,
     char* local_pattern, int no_empty_referers );
 
 /* Change the log file. */
-extern void httpd_set_logfp( httpd_server* hs, FILE* logfp );
 
 /* Call to unlisten/close socket(s) listening for new connections. */
 extern void httpd_unlisten( httpd_server* hs );
@@ -229,6 +227,12 @@ extern int httpd_parse_request( httpd_conn* hc );
 */
 extern int httpd_start_request( httpd_conn* hc, struct timeval* nowP );
 
+/* Pauses processing of hc for seconds.  
+ * Calls httpd_continue_request to continue. */
+extern void httpd_conn_sleep( httpd_conn *hc, int seconds );
+
+extern int httpd_continue_request( httpd_conn* hc, struct timeval* nowP );
+
 /* Actually sends any buffered response text. */
 extern void httpd_write_response( httpd_conn* hc );
 
@@ -252,6 +256,8 @@ extern void httpd_send_err(
 /* Some error messages. */
 extern char* httpd_err400title;
 extern char* httpd_err400form;
+extern char* httpd_err404title;
+extern char* httpd_err404form;
 extern char* httpd_err408title;
 extern char* httpd_err408form;
 extern char* httpd_err503title;
