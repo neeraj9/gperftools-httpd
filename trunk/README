@@ -17,10 +17,13 @@ and then while it is running, execute:
 	pprof a.out http://localhost:9999/pprof/heap
 
 The preload library starts the HTTP server at the first call
-to malloc.
+to malloc.  Alternately, you can link with -lghttpd and call ghttpd()
+during program initialization (e.g., in main).
 
-Alternately, you can link with -lghttpd and call ghttpd() during
-program initialization (e.g., in main).
+You can change the port number by setting the environment 
+variable GHTTPPORT:
+
+	GHTTPPORT=12345 LD_PRELOAD=libghttpd-preload.so ./a.out
 
 Russ Cox
 18 October 2006 

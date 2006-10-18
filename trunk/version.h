@@ -3,7 +3,7 @@
 #ifndef _VERSION_H_
 #define _VERSION_H_
 
-#define SERVER_SOFTWARE "tchttpd/2.25b 17oct2006"
-#define SERVER_ADDRESS "http://swtch.com/tchttpd/"
+#define SERVER_SOFTWARE "gperftools-httpd/0.2 2006/10/18"
+#define SERVER_ADDRESS "http://code.google.com/p/gperftools-httpd/"
 
 #endif /* _VERSION_H_ */

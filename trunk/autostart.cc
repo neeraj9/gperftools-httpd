@@ -30,7 +30,9 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <stdio.h>
+extern "C" {
 #include "gperftools-httpd.h"
+}
 
 extern "C" void*
 malloc(size_t n)
