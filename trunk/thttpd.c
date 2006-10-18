@@ -73,7 +73,7 @@ typedef long long int64_t;
 
 static char* argv0;
 static int debug;
-static unsigned short port = 9999;
+static unsigned short port;
 static char* dir;
 static char* data_dir;
 static int do_chroot, no_log, no_symlink_check, do_vhost, do_global_passwd;
@@ -154,6 +154,12 @@ thttpd_run(void)
     httpd_sockaddr sa6;
     int gotv4, gotv6;
     struct timeval tv;
+    
+    cp = getenv( "GHTTPPORT" );
+    if ( cp )
+	port = atoi( cp );
+    if( port == 0 )
+	port = 9999;
 
     /* Read zone info now, in case we chroot(). */
     tzset();
@@ -308,7 +314,7 @@ thttpd_run(void)
     }
 
 void
-thttpd( void )
+ghttpd( void )
     {
     pthread_t id;
     pthread_create(&id, 0, (void*(*)(void*))thttpd_run, 0);

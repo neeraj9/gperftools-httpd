@@ -30,8 +30,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <stdio.h>
-
-extern "C" void thttpd(void);
+#include "gperftools-httpd.h"
 
 extern "C" void*
 malloc(size_t n)
@@ -40,7 +39,7 @@ malloc(size_t n)
 
 	if(oldmalloc == 0){
 		// First call to malloc - start web server.
-		thttpd();
+		ghttpd();
 		oldmalloc = (void*(*)(size_t))dlsym(RTLD_NEXT, "malloc");
 	}
 	return oldmalloc(n);

@@ -14,7 +14,7 @@ CFLAGS=-O2 -fpic -ggdb
 
 OFILES = thttpd.o libhttpd.o fdwatch.o timers.o pprof.o 
 
-ALL = libghttpd.a libghttpd.so
+ALL = libghttpd.a libghttpd.so libghttpd-preload.so
 
 CLEANFILES =	$(ALL) *.o	
 
@@ -24,9 +24,17 @@ libghttpd.a: $(OFILES)
 	@rm -f $@
 	ar rvc $@ $(OFILES)
 
-libghttpd.so: $(OFILES) autostart.o
+libghttpd.so: $(OFILES)
+	@rm -f $@
+	$(CC) -shared -o $@ $(OFILES) -L/usr/local/lib -ldl -lpthread -ltcmalloc -lprofiler -lstacktrace
+
+libghttpd-preload.so: $(OFILES) autostart.o
 	@rm -f $@
 	$(CC) -shared -o $@ $(OFILES) autostart.o -L/usr/local/lib -ldl -lpthread -ltcmalloc -lprofiler -lstacktrace
+
+install:	$(ALL)
+	cp $(ALL) /usr/local/lib
+	cp gperftools-httpd.h /usr/local/include
 
 clean:
 	rm -f $(CLEANFILES)
