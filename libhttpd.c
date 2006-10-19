@@ -151,8 +151,6 @@ free_httpd_server( httpd_server* hs )
     {
     if ( hs->binding_hostname != (char*) 0 )
 	free( (void*) hs->binding_hostname );
-    if ( hs->cwd != (char*) 0 )
-	free( (void*) hs->cwd );
     if ( hs->cgi_pattern != (char*) 0 )
 	free( (void*) hs->cgi_pattern );
     if ( hs->charset != (char*) 0 )
@@ -740,6 +738,7 @@ httpd_get_conn( httpd_server* hs, int listen_fd, httpd_conn* hc )
 	httpd_realloc_str( &hc->response, &hc->maxresponse, 0 );
 #ifdef TILDE_MAP_2
 	httpd_realloc_str( &hc->altdir, &hc->maxaltdir, 0 );
+	hc->body_data = 0;
 #endif /* TILDE_MAP_2 */
 	hc->initialized = 1;
 	}
@@ -1361,6 +1360,7 @@ httpd_destroy_conn( httpd_conn* hc )
 	free( (void*) hc->remoteuser );
 	free( (void*) hc->response );
 	free( (void*) hc->body_data );
+	hc->body_data = 0;
 #ifdef TILDE_MAP_2
 	free( (void*) hc->altdir );
 #endif /* TILDE_MAP_2 */
