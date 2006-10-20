@@ -738,8 +738,8 @@ httpd_get_conn( httpd_server* hs, int listen_fd, httpd_conn* hc )
 	httpd_realloc_str( &hc->response, &hc->maxresponse, 0 );
 #ifdef TILDE_MAP_2
 	httpd_realloc_str( &hc->altdir, &hc->maxaltdir, 0 );
-	hc->body_data = 0;
 #endif /* TILDE_MAP_2 */
+	hc->body_data = 0;
 	hc->initialized = 1;
 	}
 
