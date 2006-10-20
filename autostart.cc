@@ -34,16 +34,11 @@ extern "C" {
 #include "gperftools-httpd.h"
 }
 
-extern "C" void*
-malloc(size_t n)
+static int runghttpd()
 {
-	static void *(*oldmalloc)(size_t);
-
-	if(oldmalloc == 0){
-		// First call to malloc - start web server.
-		ghttpd();
-		oldmalloc = (void*(*)(size_t))dlsym(RTLD_NEXT, "malloc");
-	}
-	return oldmalloc(n);
+	ghttpd();
 }
+
+static int zzz = runghttpd();
+
 
