@@ -202,7 +202,9 @@ thttpd_run(void)
 	no_symlink_check, do_vhost, do_global_passwd, url_pattern,
 	local_pattern, no_empty_referers );
     if ( hs == (httpd_server*) 0 )
-	exit( 1 );
+        {
+	return;
+	}
 
     /* Set up the occasional timer. */
     if ( tmr_create( (struct timeval*) 0, occasional, JunkClientData, OCCASIONAL_TIME * 1000L, 1 ) == (Timer*) 0 )
